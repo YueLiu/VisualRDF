@@ -311,13 +311,8 @@ function loadGraph(url, fn) {
         graph.load(d);
         fn(graph);
     }
-    $.getJSON("http://rdf-translator.appspot.com/convert/detect/rdf-json/"+url, doLoad)
-        .error(function() {
-           
-                            alert("Could not load "+url); 
-                        });                
-        }
-
+    $.getJSON(url, doLoad);
+}
 
 function makeNodeSVG(entities, vis, nodeWidth, graph) {
     var node = vis.selectAll("g.node")
@@ -483,8 +478,10 @@ function viewHierarchyRDF(element, w, h, url, nodeWidth) {
         .append("svg:g")
         //.attr("transform", "translate(200, 20)");
     svgRoot = vis.node();
+    
+    loadUrl = "http://localhost:8080/VisualRDF/rdf2jsonservlet?urlname="+url;
 
-    loadGraph(url, function(graph){
+    loadGraph(loadUrl, function(graph){
 
     nodes = graph.entities.concat(graph.predicates);
     graph.entities.forEach(function(d) {
@@ -674,8 +671,10 @@ function viewrdf(element, w, h, url,nodeWidth) {
         .attr('height',10000)
         .attr('fill','white');
     vis = svg.append("g");
-
-    loadGraph(url, function(graph) {
+    
+    loadUrl = "http://localhost:8080/VisualRDF/rdf2jsonservlet?urlname="+url;
+    
+    loadGraph(loadUrl, function(graph) {
 
         force.charge(-1000)
             .linkStrength(1)
